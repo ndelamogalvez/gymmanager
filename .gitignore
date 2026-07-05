@@ -3,6 +3,4 @@
 target/
 *.log
 .env
-.env
 node_modules/
-.env
