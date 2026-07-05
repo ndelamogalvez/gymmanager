@@ -2,11 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
-
+const authRoutes = require('./routes/auth');
+const { verificarToken, requiereRol } = require('./middleware/auth');
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+app.use('/auth', authRoutes);
 app.get('/socios', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM socios');
@@ -16,7 +17,7 @@ app.get('/socios', async (req, res) => {
   }
 });
 
-app.post('/socios', async (req, res) => {
+app.post('/socios', verificarToken, requiereRol('admin', 'entrenador'), async (req, res) => {
   const { nombre, apellido, telefono, fecha_alta } = req.body;
   try {
     const [result] = await pool.query(

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Gym Manager</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #f9fafb; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    button#logout { background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+    th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #2563eb; color: white; }
+    form { margin-bottom: 1.5rem; background: white; padding: 1rem; border-radius: 6px; }
+    input { padding: 0.4rem; margin-right: 0.5rem; }
+    button[type="submit"] { padding: 0.4rem 1rem; background: #16a34a; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    #adminOnly { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Panel del Gimnasio</h1>
+    <div>
+      <span id="saludo"></span> —
+      <button id="logout">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <div id="adminOnly">
+    <form id="nuevoSocioForm">
+      <input type="text" id="nombre" placeholder="Nombre" required>
+      <input type="text" id="apellido" placeholder="Apellido" required>
+      <input type="text" id="telefono" placeholder="Teléfono">
+      <input type="date" id="fecha_alta" required>
+      <button type="submit">Añadir socio</button>
+    </form>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>Teléfono</th><th>Fecha alta</th></tr>
+    </thead>
+    <tbody id="tablaSocios"></tbody>
+  </table>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

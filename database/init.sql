@@ -48,3 +48,12 @@ CREATE TABLE cuotas (
   FOREIGN KEY (socio_id) REFERENCES socios(id)
     ON DELETE CASCADE
 );
+
+CREATE TABLE usuarios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  rol ENUM('admin','entrenador','socio') NOT NULL DEFAULT 'socio',
+  fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+);
