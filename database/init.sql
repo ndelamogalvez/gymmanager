@@ -55,5 +55,8 @@ CREATE TABLE usuarios (
   email VARCHAR(150) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
   rol ENUM('admin','entrenador','socio') NOT NULL DEFAULT 'socio',
-  fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+  socio_id INT DEFAULT NULL,
+  fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (socio_id) REFERENCES socios(id)
+    ON DELETE SET NULL
 );

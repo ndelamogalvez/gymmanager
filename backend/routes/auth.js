@@ -6,16 +6,34 @@ const pool = require('../db');
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
-  const { nombre, email, password, rol } = req.body;
+  const { nombre, apellido, email, password, rol, telefono } = req.body;
+  const conn = await pool.getConnection();
   try {
+    await conn.beginTransaction();
     const hash = await bcrypt.hash(password, 10);
-    const [result] = await pool.query(
-      'INSERT INTO usuarios (nombre, email, password_hash, rol) VALUES (?, ?, ?, ?)',
-      [nombre, email, hash, rol || 'socio']
+
+    let socio_id = null;
+
+    if (rol === 'socio' || !rol) {
+      const [socioResult] = await conn.query(
+        'INSERT INTO socios (nombre, apellido, telefono, fecha_alta) VALUES (?, ?, ?, CURDATE())',
+        [nombre, apellido || '', telefono || null]
+      );
+      socio_id = socioResult.insertId;
+    }
+
+    const [userResult] = await conn.query(
+      'INSERT INTO usuarios (nombre, email, password_hash, rol, socio_id) VALUES (?, ?, ?, ?, ?)',
+      [nombre, email, hash, rol || 'socio', socio_id]
     );
-    res.status(201).json({ id: result.insertId });
+
+    await conn.commit();
+    res.status(201).json({ id: userResult.insertId, socio_id });
   } catch (err) {
+    await conn.rollback();
     res.status(500).json({ error: err.message });
+  } finally {
+    conn.release();
   }
 });
 
@@ -30,7 +48,7 @@ router.post('/login', async (req, res) => {
     if (!valido) return res.status(401).json({ error: 'Credenciales inválidas' });
 
     const token = jwt.sign(
-      { id: usuario.id, rol: usuario.rol, nombre: usuario.nombre },
+      { id: usuario.id, rol: usuario.rol, nombre: usuario.nombre, socio_id: usuario.socio_id },
       process.env.JWT_SECRET,
       { expiresIn: '8h' }
     );

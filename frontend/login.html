@@ -37,14 +37,19 @@
         });
         const data = await res.json();
 
-        if (res.ok) {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('rol', data.rol);
-          localStorage.setItem('nombre', data.nombre);
-          window.location.href = 'dashboard.html';
-        } else {
-          document.getElementById('mensaje').textContent = data.error;
-        }
+          if (res.ok) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('rol', data.rol);
+            localStorage.setItem('nombre', data.nombre);
+
+            if (data.rol === 'admin' || data.rol === 'entrenador') {
+              window.location.href = 'admin/dashboard.html';
+            } else {
+              window.location.href = 'socio/portal.html';
+            }
+          } else {
+            document.getElementById('mensaje').textContent = data.error || 'Error al iniciar sesión';
+          }
       } catch (err) {
         document.getElementById('mensaje').textContent = 'Error de conexión con el servidor';
       }

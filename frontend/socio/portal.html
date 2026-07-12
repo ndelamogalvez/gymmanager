@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Portal - Gym Manager</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #f9fafb; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    button#logout { background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
+    .clase-card { background: white; padding: 1rem; margin-bottom: 0.75rem; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    button.reservar { background: #16a34a; color: white; border: none; padding: 0.4rem 1rem; border-radius: 4px; cursor: pointer; }
+    h2 { margin-top: 2rem; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { padding: 0.6rem; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #2563eb; color: white; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mi Portal</h1>
+    <div>
+      <span id="saludo"></span> —
+      <button id="logout">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <h2>Clases disponibles</h2>
+  <div id="listaClases"></div>
+
+  <h2>Mis reservas</h2>
+  <table>
+    <thead><tr><th>Clase</th><th>Horario</th><th>Fecha</th><th>Estado</th></tr></thead>
+    <tbody id="tablaReservas"></tbody>
+  </table>
+
+  <script src="portal.js"></script>
+</body>
+</html>
